@@ -109,9 +109,9 @@ Changes to `config.txt` are automatically detected and applied without restartin
 | `R` | Manual configuration reload |
 | `1`-`4` | Activate indicators (momentary) |
 
-## Custom Fonts (Optional)
+## Custom Fonts (Recommended)
 
-Without custom fonts, the system default font is used. To use custom fonts, download them from the links below and place in a `Fonts/` subdirectory:
+This program works without any custom fonts (system default font is used). For a more authentic studio clock appearance, the following fonts are recommended:
 
 | Font | Usage | Download |
 |------|-------|----------|
