@@ -1,158 +1,131 @@
-PiRSClock-Full
-==============
+# PiRSClock-Full (Modified)
 
-PiRSClock-Full is a Raspberry Pi Radio Studio Clock written in python using pygame with studio indicators for microphones, telephones etc... on widescreen (16:9) monitors, displays and TVs.
+Raspberry Pi Radio Studio Clock with configurable studio indicators, forked from [jdgwarren/pirsclockfull](https://github.com/jdgwarren/pirsclockfull).
 
-This was designed specifically for the Raspberry Pi. This version includes configurable indicators for microphones, telephones etc... for use in a radio studio.
+Originally created by Peter Symonds.
 
-## Development Status
+## Changes from Original
 
-***
-
-PiRSClock-Full is currently stable and ready for use.
+- External configuration file (`config.txt`) for indicator labels, colors, and clock colors
+- Auto-reload of configuration (detects file changes every 5 seconds)
+- IP address display toggle (press `A` key)
+- Font toggle between system default and custom fonts (press `F` key)
+- Custom font support with fallback to system default when font files are not present
+- Keyboard-based indicator control (keys `1`-`4`) in addition to GPIO
+- Quit with `Q` key
 
 ## Hardware Requirements
 
-Pins 11, 12, 13 and 15 (top indicator to bottom) on main GPIO header light up the corresponding indicators when connected to pin 6 (Ground). 
+Raspberry Pi with GPIO header. Pins 11, 12, 13, and 15 light up the corresponding indicators when connected to Ground (pin 6).
 
-More info on the header can be found here: [http://elinux.org/RPi_Low-level_peripherals](http://elinux.org/RPi_Low-level_peripherals)
+More info: [Raspberry Pi GPIO](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html)
 
 **EXERCISE CAUTION WHEN HANDLING ELECTRICITY**
 
-## Installation for Raspberry Pi
+## Installation
 
-***
+### Prerequisites
 
-It's recommended to use Debian Wheezy or above for this project and a 4GB or more SD Card.
-For reliability I recommend to only use this Pi for the clock.
+- Raspberry Pi OS (Bookworm or later recommended)
+- Python 3
+- pygame
 
-Note 1: The Pi will have the most accuracy in time keeping when it has a constant connection to the internet.
+```bash
+sudo apt-get update
+sudo apt-get install python3-pygame
+```
 
-Note 2: On older HDMI displays and composite video you may need to force 16:9 mode. This is done by adding this to the config.txt in the boot partition:
+### Setup
 
-    sdtv_aspect=3
-    
-See [http://elinux.org/RPiconfig](http://elinux.org/RPiconfig) for more info.
+1. Clone this repository:
 
-Once you have copied the Debian Wheezy Image to your SD Card and booted your Pi for the first time, a prompt will come up called:
-    
-    Raspberry Pi Software Configuration Tool (raspi-config)
+```bash
+git clone https://github.com/stcatcom/pirsclockfull.git
+cd pirsclockfull
+```
 
-You need to select:
+2. Run:
 
-    1 Expand Filesystem
-Then
+```bash
+python3 pirsclockfull.py
+```
 
-    <Ok>
+### Auto-start on boot
 
-Next we need to:
+Create a systemd service or add to crontab:
 
-    3 Enable Boot to Desktop/Scratch
+```bash
+crontab -e
+```
 
-and select:
+Add:
 
-    Console Text console
+```
+@reboot /usr/bin/python3 /path/to/pirsclockfull.py &
+```
 
-**THIS PART IS IMPORTANT TO GET THE RIGHT TIMEZOME**
+## Configuration
 
-Select:
+Edit `config.txt` in the same directory as the script.
 
-    4 Internationalisation Options
+### Format
 
-Then:
+```
+<Label>,<TextR>,<TextG>,<TextB>,<BgR>,<BgG>,<BgB>    # Indicator 1
+<Label>,<TextR>,<TextG>,<TextB>,<BgR>,<BgG>,<BgB>    # Indicator 2
+<Label>,<TextR>,<TextG>,<TextB>,<BgR>,<BgG>,<BgB>    # Indicator 3
+<Label>,<TextR>,<TextG>,<TextB>,<BgR>,<BgG>,<BgB>    # Indicator 4
+<ClockR>,<ClockG>,<ClockB>,<DotR>,<DotG>,<DotB>      # Clock colors
+```
 
-    I2 Change Time Zone
+### Example (`config.txt`)
 
-You will have a list of continents/geographical areas, select your one. Then select a region or city in your time zone.
+```
+ON AIR,255,255,255,255,0,0
+CUE,0,0,0,255,255,0
+STD BY,255,255,255,0,255,0
+REC,255,0,0,255,255,255
+255,0,0,255,255,255
+```
 
-When you are done select:
+- Lines 1-4: Indicator label, text color (RGB), background color (RGB)
+- Line 5: Digital clock color (RGB), dot marker color (RGB)
 
-    <Finish>
-    
-Then Reboot.
+Changes to `config.txt` are automatically detected and applied without restarting.
 
-Once you have rebooted and logged in lets make sure everything is up to date:
+## Keyboard Controls
 
-    sudo apt-get update
-    
-Then
+| Key | Action |
+|-----|--------|
+| `Q` | Quit |
+| `F` | Toggle font (system default / custom) |
+| `A` | Toggle IP address display |
+| `R` | Manual configuration reload |
+| `1`-`4` | Activate indicators (momentary) |
 
-    sudo apt-get upgrade
-    
-Now we need to get setuptools:
+## Custom Fonts (Optional)
 
-    sudo apt-get install python-setuptools
-    
-And finally we install PiRSClock-Full:
+Without custom fonts, the system default font is used. To use custom fonts, download them from the links below and place in a `Fonts/` subdirectory:
 
-    sudo easy_install PiRSClock-Full
-    
-and there we have it!
+| Font | Usage | Download |
+|------|-------|----------|
+| DSEG7Classic-Regular.ttf | Clock display | [DSEG Font Family](https://github.com/keshikan/DSEG) (SIL OFL 1.1) |
+| GenShinGothic-P-Bold.ttf | Indicator labels | [GenShinGothic](http://jikasei.me/font/genshin/) (SIL OFL 1.1) |
 
-## Running it
+```
+pirsclockfull/
+├── pirsclockfull.py
+├── config.txt
+└── Fonts/
+    ├── DSEG7Classic-Regular.ttf
+    └── GenShinGothic-P-Bold.ttf
+```
 
-***
+Press `F` to toggle between system default and custom fonts (clock display only).
 
-All we have to do is:
+## License
 
-    sudo pirsclockfull
-    
-To quit just hold down keys Q and T at the same time.
+GNU General Public License v3.0 - see [LICENSE](LICENSE) for details.
 
-## Custom configuration
-
-***
-
-Firstly you type:
-
-    sudo nano /usr/local/lib/python2.7/dist-packages/PiRSClock_Full-2.0-py2.7.egg/EGG-INFO/scripts/pirsclockfull
-
-To set colours of the indicators, change the numerical values in ind1colour - ind4colour.
-
-The values are standard RGB
-
-The First value is RED, the second is GREEN and the third is BLUE. The max value is 255 and the min is 0
-
-Example:
-
-    ind1colour = (255, 0, 0)
-    
-would make the first indicator red in this example.
-
-To change the text in the indicators, change the word in the "quotes" in ind1txt - ind4txt
-
-Example:
-
-    ind1txt = indfont.render("HELLO",True,bgcolour)
-
-This would change the text to HELLO on the first indicator in this example.
-
-Once you are done press Ctrl and O together
-
-Then Enter
-
-Ctrl and X together
-
-## Making it startup automatically when you plug in the Pi
-
-***
-
-Firstly:
-
-    sudo crontab -e
-    
-And add this to the bottom of the file:
-
-    @reboot /usr/local/bin/pirsclockfull &
-    
-Press Ctrl and O keys together to save.
-
-Then press Enter.
-
-Then Ctrl and X to exit
-
-    sudo reboot
-    
-To test it.
-    
-It should now automatically display after you reboot and every time you turn it on. Remember hold Q and T to get back to the command line if needed.
+Original work Copyright (C) 2014 Peter Symonds
+Modified work Copyright (C) 2026 Masaya Miyazaki (stcatcom)
