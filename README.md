@@ -123,6 +123,12 @@ pirsclockfull/
 
 Press `F` to toggle between system default and custom fonts (clock display only).
 
+## Support
+
+If you find this project useful, consider supporting development:
+
+[![PayPal](https://img.shields.io/badge/PayPal-Donate-blue.svg)](https://paypal.me/stcatcom?locale.x=ja_JP&country.x=JP)
+
 ## License
 
 GNU General Public License v3.0 - see [LICENSE](LICENSE) for details.
