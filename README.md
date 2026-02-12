@@ -113,6 +113,8 @@ Changes to `config.txt` are automatically detected and applied without restartin
 
 This program works without any custom fonts (system default font is used). For a more authentic studio clock appearance, the following fonts are recommended:
 
+**Note:** The system default font only supports ASCII characters. To display multibyte characters such as Japanese in indicator labels, a compatible font (e.g., GenShinGothic) is required.
+
 | Font | Usage | Download |
 |------|-------|----------|
 | DSEG7Classic-Regular.ttf | Clock display | [DSEG Font Family](https://github.com/keshikan/DSEG) (SIL OFL 1.1) |
