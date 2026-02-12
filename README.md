@@ -131,6 +131,13 @@ pirsclockfull/
 
 Press `F` to toggle between system default and custom fonts (clock display only).
 
+To use different font files, edit the following variables in `pirsclockfull.py`:
+
+```python
+clkfont = os.path.join(SCRIPT_DIR, "Fonts", "DSEG7Classic-Regular.ttf")       # Clock display
+indfont_path = os.path.join(SCRIPT_DIR, "Fonts", "GenShinGothic-P-Bold.ttf")  # Indicator labels
+```
+
 ## Support
 
 If you find this project useful, consider supporting development:
