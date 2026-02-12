@@ -4,6 +4,12 @@ Raspberry Pi Radio Studio Clock with configurable studio indicators, forked from
 
 Originally created by Peter Symonds.
 
+## Screenshots
+
+| System Default Font | DSEG7 Custom Font |
+|:---:|:---:|
+| ![Default Font](default.png) | ![DSEG7 Font](dseg7.png) |
+
 ## Changes from Original
 
 - External configuration file (`config.txt`) for indicator labels, colors, and clock colors
